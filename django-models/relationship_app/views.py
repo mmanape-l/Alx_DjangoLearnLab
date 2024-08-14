@@ -1,11 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
 
-# Custom registration view
+# Registration view using Django's built-in UserCreationForm
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'register.html'
