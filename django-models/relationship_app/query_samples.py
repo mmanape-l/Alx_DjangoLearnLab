@@ -8,13 +8,6 @@ print(f"Books by {author_name}:")
 for book in books_by_author:
     print(book.title)
 
-# Alternatively, using the reverse relationship from the Author model
-# Uncomment the following lines if you want to use the reverse relationship instead
-# books_by_author = author.books.all()
-# print(f"Books by {author_name}:")
-# for book in books_by_author:
-#     print(book.title)
-
 # List all books in a library
 library_name = "Library Name"  # replace with an actual library name
 library = Library.objects.get(name=library_name)
@@ -23,6 +16,6 @@ print(f"Books in {library_name}:")
 for book in books_in_library:
     print(book.title)
 
-# Retrieve the librarian for a library
-librarian_for_library = library.librarian
-print(f"Librarian for {library_name}: {librarian_for_library.name}")
+# Retrieve the librarian for a library using direct filter
+librarian = Librarian.objects.get(library=library)
+print(f"Librarian for {library_name}: {librarian.name}")
