@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.views importLogoutView
-from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import loginView
+from django.contrib.auth.views import logoutView
+from django.views.generic.edit import createView
+from django.contrib.auth.forms import userCreationForm
 
 # Custom registration view
 class RegisterView(CreateView):
