@@ -1,17 +1,18 @@
-from django.shortcuts import render
-from .models import Book, Library  # Import the Book and Library models
+from django.shortcuts import render, get_object_or_404
+from django.views.generic.detail import DetailView
+from .models import Book, Library  # Import both Book and Library models
 
 # Function-based view to list all books
 def list_books(request):
     books = Book.objects.all()  # Retrieve all Book instances from the database
     return render(request, 'relationship_app/list_books.html', {'books': books})
 
-# Function-based view to display details for a specific library
-def library_detail(request, pk):
-    library = get_object_or_404(Library, pk=pk)  # Fetch the library by primary key
-    books = library.books.all()  # Retrieve all books associated with this library
-    context = {
-        'library': library,
-        'books': books
-    }
-    return render(request, 'relationship_app/library_detail.html', context)
+# Class-based view to display details for a specific library
+class LibraryDetailView(DetailView):
+    model = Library  # Use the Library model
+    template_name = 'relationship_app/library_detail.html'  # Path to the template
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add additional context if needed (not needed in this basic implementation)
+        return context
