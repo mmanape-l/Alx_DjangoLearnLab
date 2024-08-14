@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.views.generic.detail import DetailView
-from .models import Book, Library  # Import both Book and Library models
+from .models import Book, Library  # Ensure the Library model is imported
 
 # Function-based view to list all books
 def list_books(request):
@@ -14,5 +14,5 @@ class LibraryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add additional context if needed (not needed in this basic implementation)
+        # Additional context can be added if needed
         return context
