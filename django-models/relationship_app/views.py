@@ -1,17 +1,20 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.views.decorators.http import require_http_methods
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView, LogoutView
 
-@require_http_methods(["GET", "POST"])
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')  # Redirect after successful registration
-    else:
-        form = UserCreationForm()
-    return render(request, 'relationship_app/register.html', {'form': form})
+# Custom registration view
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'register.html'
+    success_url = reverse_lazy('login')
 
+# Custom login view
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+
+# Custom logout view
+class CustomLogoutView(LogoutView):
+    template_name = 'logout.html'
