@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import list_books, LibraryDetailView, register  # Ensure register is imported
+from .views import list_books, LibraryDetailView, register
 
 urlpatterns = [
     # Function-based view for listing books
