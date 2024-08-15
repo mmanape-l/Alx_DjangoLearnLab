@@ -1,14 +1,3 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test, login_required
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
-
-# Custom LoginView
-class CustomLoginView(LoginView):
-    template_name = 'login.html'  # Ensures the login template is used
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login
@@ -24,7 +13,7 @@ def register(request):
             return redirect('login')  # Redirect to login after registration
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 # Role-based helper functions
 def is_admin(user):
