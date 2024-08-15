@@ -1,22 +1,30 @@
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.views import LogoutView
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
-# Custom registration view
-class RegisterView(CreateView):
-    form_class = UserCreationForm
-    template_name = 'register.html'
-    success_url = reverse_lazy('login')
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Redirect to a home page or dashboard
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
 
-# Custom login view
-class CustomLoginView(LoginView):
-    template_name = 'login.html'
+def user_logout(request):
+    logout(request)
+    return render(request, 'logout.html')
 
-# Custom logout view
-class CustomLogoutView(LogoutView):
-    template_name = 'logout.html'
+def user_register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
