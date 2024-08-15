@@ -1,11 +1,9 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from .models import UserProfile
+from django.views.generic.edit import CreateView
+from django.contrib.auth import login
 
 # Custom LoginView
 class CustomLoginView(LoginView):
