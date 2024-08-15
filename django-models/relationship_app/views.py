@@ -15,7 +15,7 @@ class CustomLogoutView(LogoutView):
 
 # Custom RegisterView using CreateView
 class RegisterView(CreateView):
-    form_class = UserCreationForm
+    form_class = UserCreationForm()
     template_name = 'register.html'  # Ensures the registration template is used
     success_url = reverse_lazy('login')  # Redirect to login after registration
 
