@@ -9,24 +9,24 @@ from django.contrib.auth.forms import UserCreationForm
 # Custom LoginView
 class CustomLoginView(LoginView):
     template_name = 'login.html'  # Ensures the login template is used
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 
-# Custom LogoutView
-class CustomLogoutView(LogoutView):
-    template_name = 'logout.html'  # Ensures the logout template is used
+# Function-based register view
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('login')  # Redirect to login after registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
-# Custom RegisterView using CreateView
-class RegisterView(CreateView):
-    form_class = UserCreationForm
-    template_name = 'register.html'  # Ensures the registration template is used
-    success_url = reverse_lazy('login')  # Redirect to login after registration
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        user = form.save()
-        login(self.request, user)  # Log in the user after registration
-        return response
-
-# Role-based views
+# Role-based helper functions
 def is_admin(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
 
@@ -36,6 +36,7 @@ def is_librarian(user):
 def is_member(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
+# Role-based views
 @login_required
 @user_passes_test(is_admin)
 def admin_view(request):
@@ -50,5 +51,3 @@ def librarian_view(request):
 @user_passes_test(is_member)
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
-
-

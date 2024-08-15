@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
     
     # URL pattern for user registration
-    path('register/', views.RegisterView.as_view(), name='register'),
+    path('register/', views.register, name='register'),
     
     # URL patterns for role-based views
     path('admin/', views.admin_view, name='admin_view'),
