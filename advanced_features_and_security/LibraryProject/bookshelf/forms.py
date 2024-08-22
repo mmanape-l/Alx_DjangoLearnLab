@@ -14,3 +14,8 @@ class BookForm(forms.ModelForm):
         self.fields['title'].widget.attrs.update({'placeholder': 'Book Title'})
         self.fields['author'].widget.attrs.update({'placeholder': 'Author Name'})
         self.fields['publication_date'].widget.attrs.update({'placeholder': 'Publication Date'})
+
+class ExampleForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Name')
+    email = forms.EmailField(label='Email Address')
+    message = forms.CharField(widget=forms.Textarea, label='Message')
