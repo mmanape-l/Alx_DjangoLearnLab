@@ -4,17 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if book %}Edit{% else %}Create{% endif %} Book</title>
+    {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <h1>{% if book %}Edit{% else %}Create{% endif %} Book</h1>
-
-    <form method="post" action="{% url 'book_create' %}{% if book %}?pk={{ book.pk }}{% endif %}">
+    <form method="post" action="{% if book %}{% url 'book_edit' pk=book.pk %}{% else %}{% url 'book_create' %}{% endif %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
         <button type="submit">{% if book %}Update{% else %}Create{% endif %} Book</button>
     </form>
-
     <a href="{% url 'book_list' %}">Back to book list</a>
 </body>
 </html>
