@@ -26,3 +26,5 @@ class ExampleForm(forms.Form):
         if email and not email.endswith('@example.com'):
             raise forms.ValidationError("Please use an email address from example.com domain.")
         return email
+
+
