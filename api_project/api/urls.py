@@ -9,7 +9,7 @@ router.register(r'books', BookViewSet)
 
 urlpatterns = [
     # URL pattern for the old BookList view (optional)
-    path('books/list/', BookList.as_view(), name='book-list'),
+    path('books/', BookList.as_view(), name='book-list'),
     
     # Include the router-generated URLs
     path('', include(router.urls)),
