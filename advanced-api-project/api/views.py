@@ -17,24 +17,40 @@ class BookListView(generics.ListCreateAPIView):
         """
         Override to add custom behavior when creating a new book.
         """
-        # Add custom logic here if needed
         serializer.save()
 
-class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+class BookDetailView(generics.RetrieveAPIView):
     """
-    Retrieve, update, or delete a book.
+    Retrieve a specific book by its ID.
     - GET /books/<int:pk>/ - Retrieve a specific book by its ID.
-    - PUT /books/<int:pk>/ - Update an existing book.
-    - DELETE /books/<int:pk>/ - Delete a book.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [AllowAny]  # Allows unauthenticated users to retrieve books
+
+class BookCreateView(generics.CreateAPIView):
+    """
+    Create a new book.
+    - POST /books/ - Create a new book.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]  # Restricts access to authenticated users
 
-    def perform_update(self, serializer):
-        """
-        Override to add custom behavior when updating a book.
-        """
-        # Add custom logic here if needed
-        serializer.save()
+class BookUpdateView(generics.UpdateAPIView):
+    """
+    Update an existing book.
+    - PUT /books/<int:pk>/ - Update an existing book.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Restricts access to authenticated users
 
+class BookDeleteView(generics.DestroyAPIView):
+    """
+    Delete a book.
+    - DELETE /books/<int:pk>/ - Delete a book.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Restricts access to authenticated users
