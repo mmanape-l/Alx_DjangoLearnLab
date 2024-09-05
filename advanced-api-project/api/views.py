@@ -11,7 +11,7 @@ class BookListView(generics.ListCreateAPIView):
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Allow any user to view details, but only authenticated users can update or delete
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Allow any user to retrieve details, but only authenticated users can update or delete
 
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
