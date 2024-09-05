@@ -6,7 +6,12 @@ from .serializers import BookSerializer
 class BookListView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Allow any user to list, but only authenticated users can create
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+    filterset_class = BookFilter
+    ordering_fields = ['title', 'publication_year']
+    search_fields = ['title', 'author__name']
+
 
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
