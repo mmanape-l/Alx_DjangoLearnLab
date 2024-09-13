@@ -11,10 +11,16 @@ from .views import (
     CommentDeleteView,
     TagListView,
     SearchResultsView,
-    PostByTagListView  # Add this import
+    PostByTagListView,
+    login_view,  # Add this import
+    register_view  # Add this import
 )
 
 urlpatterns = [
+    # User authentication
+    path('login/', login_view, name='login'),  # Add this line
+    path('register/', register_view, name='register'),  # Add this line
+
     # User profile update
     path('profile/', profile, name='profile'),
 
@@ -32,7 +38,7 @@ urlpatterns = [
 
     # Tag-related actions
     path('tags/', TagListView.as_view(), name='tag-list'),
-    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts-by-tag'),  # Update this line
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts-by-tag'),
 
     # Search functionality
     path('search/', SearchResultsView.as_view(), name='search-results'),
