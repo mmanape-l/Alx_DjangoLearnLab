@@ -10,7 +10,8 @@ from .views import (
     CommentUpdateView,
     CommentDeleteView,
     TagListView,
-    SearchResultsView
+    SearchResultsView,
+    PostByTagListView  # Add this import
 )
 
 urlpatterns = [
@@ -18,21 +19,21 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
 
     # Blog post CRUD operations
-    path('', PostListView.as_view(), name='post-list'),  # List all posts
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),  # View a single post
-    path('post/new/', PostCreateView.as_view(), name='post-create'),  # Create a new post
-    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),  # Edit a post
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # Delete a post
+    path('', PostListView.as_view(), name='post-list'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
     # Comment-related actions
-    path('post/<int:post_id>/comments/new/', CommentCreateView.as_view(), name='add-comment'),  # Add a new comment
-    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='edit-comment'),  # Edit a comment
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='delete-comment'),  # Delete a comment
+    path('post/<int:post_id>/comments/new/', CommentCreateView.as_view(), name='add-comment'),
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='edit-comment'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='delete-comment'),
 
     # Tag-related actions
-    path('tags/', TagListView.as_view(), name='tag-list'),  # List all tags
-    path('tags/<slug:tag_slug>/', PostListView.as_view(), name='posts-by-tag'),  # List posts by tag
+    path('tags/', TagListView.as_view(), name='tag-list'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts-by-tag'),  # Update this line
 
     # Search functionality
-    path('search/', SearchResultsView.as_view(), name='search-results'),  # Search results
+    path('search/', SearchResultsView.as_view(), name='search-results'),
 ]
