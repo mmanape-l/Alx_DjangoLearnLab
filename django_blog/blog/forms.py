@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Post, Comment, Tag
+from .models import Post, Comment
+from taggit.forms import TagWidget  # Import TagWidget for tag handling
 
 # Form for updating user details
 class UserUpdateForm(forms.ModelForm):
@@ -10,18 +11,21 @@ class UserUpdateForm(forms.ModelForm):
 
 # Form for creating and updating blog posts
 class PostForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
+    tags = forms.CharField(
         required=False,
-        widget=forms.CheckboxSelectMultiple
+        widget=TagWidget()  # Use TagWidget to handle tags
     )
-    
+
     class Meta:
         model = Post
-        fields = ['title', 'content', 'tags']
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 10, 'cols': 80}),
-        }
+        fields = ['title', 'content', 'tags']  # Include 'tags' field
+
+    def save(self, commit=True):
+        post = super().save(commit=False)
+        if commit:
+            post.save()
+            self.save_m2m()  # Save tags to many-to-many field
+        return post
 
 # Form for creating and updating comments
 class CommentForm(forms.ModelForm):
