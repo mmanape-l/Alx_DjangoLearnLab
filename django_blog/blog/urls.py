@@ -6,8 +6,8 @@ from .views import (
     PostUpdateView, 
     PostDeleteView, 
     profile,
-    add_comment,
-    edit_comment,
+    create_comment,
+    update_comment,
     delete_comment
 )
 
@@ -23,7 +23,7 @@ urlpatterns = [
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # Delete a post
 
     # Comment-related actions
-    path('post/<int:post_id>/comments/new/', add_comment, name='add-comment'),  # Add a new comment
-    path('post/<int:post_id>/comments/<int:comment_id>/edit/', edit_comment, name='edit-comment'),  # Edit a comment
+    path('post/<int:post_id>/comments/new/', create_comment, name='add-comment'),  # Add a new comment
+    path('post/<int:post_id>/comments/<int:comment_id>/edit/', update_comment, name='edit-comment'),  # Edit a comment
     path('post/<int:post_id>/comments/<int:comment_id>/delete/', delete_comment, name='delete-comment'),  # Delete a comment
 ]
