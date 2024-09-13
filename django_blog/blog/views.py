@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-from .models import Post, Comment, Tag
+from .models import Post, Comment
 from .forms import UserUpdateForm, PostForm, CommentForm
 
 # Profile view for user profile updates
@@ -26,18 +26,6 @@ class PostListView(ListView):
     context_object_name = 'posts'  # Name of the context object to use in the template
     ordering = ['-published_date']  # Display posts in descending order of published date
 
-    # Search functionality
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        query = self.request.GET.get('q')
-        if query:
-            queryset = queryset.filter(
-                Q(title__icontains=query) | 
-                Q(content__icontains=query) | 
-                Q(tags__name__icontains=query)
-            ).distinct()
-        return queryset
-
 # DetailView for displaying a single post along with comments
 class PostDetailView(DetailView):
     model = Post
@@ -46,10 +34,10 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add the comment form and comments to the context
+        # Add the comment form to the context
         if self.request.user.is_authenticated:
             context['comment_form'] = CommentForm()
-        context['comments'] = Comment.objects.filter(post=self.object)
+            context['comments'] = Comment.objects.filter(post=self.object)
         return context
 
 # CreateView for creating a new post
@@ -131,5 +119,4 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['post_id']})
 
-    def test_func(self):
-        return self.get_object().author == self.request.user
+    def test_f
