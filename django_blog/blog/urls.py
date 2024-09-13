@@ -1,10 +1,14 @@
 from django.urls import path
-from .views import UserRegisterView
-from django.contrib.auth import views as auth_views
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, profile
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', UserRegisterView.as_view(), name='register'),
-    path('profile/', UserProfileView.as_view(), name='profile'),
+    # User profile update
+    path('profile/', profile, name='profile'),
+
+    # Blog post CRUD operations
+    path('', PostListView.as_view(), name='post-list'),  # List all posts
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),  # View a single post
+    path('post/new/', PostCreateView.as_view(), name='post-create'),  # Create a new post
+    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),  # Edit a post
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),  # Delete a post
 ]
