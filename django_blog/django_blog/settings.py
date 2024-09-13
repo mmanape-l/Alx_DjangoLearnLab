@@ -59,6 +59,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': '',  # Leave empty for SQLite
+        'PASSWORD': '',  # Leave empty for SQLite
+        'HOST': '',  # Leave empty for SQLite
+        'PORT': '',  # Leave empty for SQLite
     }
 }
 
