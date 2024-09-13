@@ -53,4 +53,13 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 # UpdateView for editing an existing post
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    mo
+    model = Post
+    form_class = PostForm  # Use PostForm to handle post updates
+    template_name = 'post_form.html'  # Reuse the same form template as for creation
+    success_url = reverse_lazy('post-list')  # Redirect after successful update
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author  # Ensure only the author can edit the post
+
+# DeleteView
