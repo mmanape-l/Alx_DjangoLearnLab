@@ -3,6 +3,13 @@
 {% block content %}
   <h2>{{ post.title }}</h2>
   <p>{{ post.content }}</p>
+
+<h3>Tags:</h3>
+<ul>
+    {% for tag in post.tags.all %}
+        <li><a href="{% url 'tagged-posts' tag.name %}">{{ tag.name }}</a></li>
+    {% endfor %}
+</ul>
   {% if user == post.author %}
     <a href="{% url 'post-update' post.pk %}">Edit</a>
     <a href="{% url 'post-delete' post.pk %}">Delete</a>
