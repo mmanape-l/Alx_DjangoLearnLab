@@ -1,10 +1,11 @@
 from rest_framework import generics, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-from .serializers import UserSerializer, TokenSerializer
+from .serializers import RegisterSerializer, UserSerializer, TokenSerializer
+from rest_framework.authtoken.models import Token
 
 class RegisterView(generics.CreateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):

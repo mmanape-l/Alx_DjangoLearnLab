@@ -5,31 +5,14 @@ from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
-class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-    email = serializers.CharField(required=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
-from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from django.contrib.auth.password_validation import validate_password
-from rest_framework.authtoken.models import Token
-
-User = get_user_model()
-
-class UserSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
+    email = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
-    email = serializers.CharField(required=True)
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    bio = serializers.CharField(required=False, allow_blank=True)
-
-    class Meta:
-        model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'bio')
+    bio = serializers.CharField(required=False)
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -37,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = get_user_model().objects.create_user(
+        user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
@@ -48,6 +31,11 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         Token.objects.create(user=user)
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'bio')
 
 class TokenSerializer(serializers.ModelSerializer):
     auth_token = serializers.CharField(source='key')
