@@ -21,6 +21,18 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_SSL_REDIRECT = True  # Set to True if using HTTPS
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+STATIC_URL = 'static/'
+
+# Define STATIC_ROOT for production (this is where collectstatic will gather static files)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files (for profile pictures and other user-uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 PORT = os.getenv('PORT', '8000')
 
 # Application definition
