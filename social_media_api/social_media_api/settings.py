@@ -33,7 +33,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-PORT = os.getenv('PORT', '8000')
+PORT = os.getenv('PORT', '8000')  # Port environment variable for production
 
 # Application definition
 INSTALLED_APPS = [
