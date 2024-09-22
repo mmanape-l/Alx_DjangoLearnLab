@@ -12,16 +12,17 @@
 from\cf3  django.urls \cf2 import\cf3  path\
 \cf2 from\cf3  .views \cf2 import\cf3  RegisterView, CustomObtainAuthToken, UserProfileView\
 \pard\pardeftab720\partightenfactor0
-\cf0 \outl0\strokewidth0 \strokec4 from .views import FollowUserView, UnfollowUserView\cf3 \outl0\strokewidth0 \
-\pard\pardeftab720\partightenfactor0
-\cf3 \
+\cf0 from .views import UserList, FollowUserView, UnfollowUserView\cf3 \
+\
 urlpatterns \cf5 =\cf3  [\
     path(\cf6 'register/'\cf3 , RegisterView.as_view(), name\cf5 =\cf6 'register'\cf3 ),\
     path(\cf6 'login/'\cf3 , CustomObtainAuthToken.as_view(), name\cf5 =\cf6 'login'\cf3 ),\
     path(\cf6 'profile/'\cf3 , UserProfileView.as_view(), name\cf5 =\cf6 'profile'\cf3 ),\
+\pard\pardeftab720\li683\fi-57\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec4 path('users/', UserList.as_view(), name='user-list'),\cf3 \outl0\strokewidth0 \
 \pard\pardeftab720\li683\fi-4\partightenfactor0
-\cf0 \outl0\strokewidth0 \strokec4 path('follow/<int:user_id>/', FollowUserView.as_view(), name='follow_user'),\
+\cf0 path('follow/<int:user_id>/', FollowUserView.as_view(), name='follow_user'),\
 \pard\pardeftab720\li668\fi10\partightenfactor0
-\cf0 path('unfollow/<int:user_id>/', UnfollowUserView.as_view(), name='unfollow_user'),\cf3 \outl0\strokewidth0 \
+\cf0 path('unfollow/<int:user_id>/', UnfollowUserView.as_view(), name='unfollow_user'),\cf3 \
 \pard\pardeftab720\partightenfactor0
 \cf3 ]}
