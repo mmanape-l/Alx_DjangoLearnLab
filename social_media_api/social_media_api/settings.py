@@ -21,6 +21,8 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_SSL_REDIRECT = True  # Set to True if using HTTPS
 
+PORT = os.getenv('PORT', '8000')
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
