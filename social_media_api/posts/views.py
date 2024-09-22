@@ -1,7 +1,5 @@
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
-from rest_framework import status
-from django.shortcuts import get_object_or_404
 from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 from django.contrib.auth import get_user_model
@@ -36,9 +34,8 @@ class LikePostView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         like, created = Like.objects.get_or_create(user=request.user, post=post)
-
         if created:
             # Create notification for the post author
             Notification.objects.create(
@@ -54,13 +51,10 @@ class UnlikePostView(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         try:
             like = Like.objects.get(user=request.user, post=post)
             like.delete()
             return Response({'detail': 'Post unliked.'}, status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
             return Response({'detail': 'You have not liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
