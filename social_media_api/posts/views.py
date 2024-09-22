@@ -13,7 +13,7 @@ class PostViewSet(viewsets.ModelViewSet):
         user = self.request.user
         # Get the users that the current user follows
         followed_users = user.following.all()  
-        return Post.objects.filter(author__in=followed_users).order_by('-created_at')
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all().order_by('-created_at')
